@@ -58,4 +58,6 @@ fn no_copy() {
     println!("f.len = {}", f.len());
 }
 
-fn curing_dynamic_data() {}
+fn curing_dynamic_data() {
+    // todo
+}
