@@ -1,143 +1,61 @@
-use num_enum::TryFromPrimitive;
-
-// 枚举和整数
+// Box<T>
 fn main() {
-  // 例如 我们需要根据某个值来匹配对应的枚举
-  // 如 输入2 得到 Num::Two
-  enum Num {
-    One = 1,
-    Two = 2,
-    Three = 3,
-  }
+    // Box<T 允许将一个值存储在堆中，然后将其智能指针保存在栈中
 
-  let a = 1;
-  match a {
-    // Num::One => println!("one"),
-    // ^ 报错：因为a是i32类型，因此这里不能为Num枚举类型
-    _ => ()
-  }
+    /*
+     * Box<T> 的作用与场景
+     * 1. Box 的功能单一仅仅是将数据存储在堆中
+     * 2. 当数据较大时，又不想在转移所有权时拷贝新数据。例如 [0,1000]
+     * 3. 某一数据类型的大小无法在编译期确定，但又需要固定其大小类型。 例如 Box<str>
+     * 4. 特征对象，只关心某类数据具有相同的trait，不关心其具体的类型。 例如 Box<dyn Animal>
+     */
 
+    // 将数据保存在堆中
+    data_on_heap();
 
-  // 使用第三方库 num_enum
-  num_enum_run();
+    // 避免栈中数据拷贝
+    no_copy();
 
-  // 使用as
-  as_run();
-
-  // 为枚举实现TryFrom 手动实现转换
-  from_run();
-
-  // 使用 transmute 来实现转换
-  transmute_run();
+    // 固化动态大小的数据
+    curing_dynamic_data();
 }
 
-fn num_enum_run() {
-  // 使用第三方库 num_enum 来解决这个问题
-  #[derive(TryFromPrimitive, Debug)]
-  #[repr(i32)] // 控制底层类型的大小
-  enum Num {
-    One = 1,
-    Two = 2,
-    Three = 3
-  }
+fn data_on_heap() {
+    let a = 3; // 数据保存在栈中
+    let b = Box::new(3); // 数据保存在堆中 b是智能指针保存在栈中，b指向堆中对应的数据
 
-  let b = 2;
-  match Num::try_from(b) {
-   /*
-    Ok(Num::One) => println!("from num_enum_run: one"),
-    Ok(Num::Two) => println!("from num_enum_run: two"),
-    Ok(Num::Three) => println!("from num_enum_run: three"),
-    */
-    // 亦或：
-    Ok(x) => {
-      match x {
-        v => println!("from num_enum_run: {:?}", v)
-      }
-    }
-    _ => println!("from num_enum_run: other")
-  }
+    println!("a = {a}, b = {b}"); // 可以打印出b，因为b被隐式的解引用了
+
+    // let c = a + b; // 但在表达式中Box不会隐式的自动解引用
+    let c = a + *b; // 手动解引用后可访问到数据
+    println!("c = {c}");
+
+    /*
+     * a的内存由编译器自动管理 当变量离开作用域时自动释放
+     * b离开作用域时，其真实堆中数据将被Drop trait来实现释放
+     */
 }
 
-fn as_run() {
-  enum Num {
-    One = 1,
-    Two = 2,
-    Three = 3,
-  }
+fn no_copy() {
+    // 存储在栈中的数转移所有权时，其本质是对栈中的数据进行了拷贝
+    // 例如：
+    let a = [1, 2, 3];
+    let b = a;
+    // 当将a赋值给b时，调用了 Copy trait 。
+    println!("a = {:?}, b = {:?}", a, b); // b 和 a 可以同时存在 因此a的所有权并没有被转移
 
-  let a = 1;
+    // 但若数据量非常大时
+    let c = [1; 1000];
+    let d = c; // 将发生复制行为，非常消耗内存
+    println!("c.len = {:?}, d.len = {:?}", c.len(), d.len());
 
-  // 思路：我们可以使用as将 Num枚举分支转为i32类型
-  assert_eq!(a, Num::One as i32);
+    // 将大数据使用Box包裹。使其存储在堆中
+    let e = Box::new([0; 1000]);
+    let f = e; // e 的所有权移动至f。
 
-  // 因此：
-  match a {
-    x if x == Num::One as i32 => println!("one"),
-    x if x == Num::Two as i32 => println!("two"),
-    x if x == Num::Three as i32 => println!("two"),
-    _ => println!("other")
-  }
+    // e不可再访问
+    // println!("{}", e.len());
+    println!("f.len = {}", f.len());
 }
 
-fn from_run() {
-  #[derive(Debug, PartialEq)]
-  enum Num {
-    One = 1,
-    Two = 2,
-    Three = 3,
-  }
-
-  let a = 1;
-
-  impl TryFrom<i32> for Num {
-    type Error = ();
-
-    fn try_from(v: i32) -> Result<Self, Self::Error> {
-      match v {
-        x if x == Num::One as i32 => Ok(Num::One),
-        x if x == Num::Two as i32 => Ok(Num::Two),
-        x if x == Num::Three as i32 => Ok(Num::Three),
-        _ => Err(())
-      }
-    }
-  }
-
-  let b = Num::try_from(a);
-  println!("{:?}", b);
-
-  let c: Result<Num, ()> = a.try_into();
-  println!("{:?}", c);
-
-  assert_eq!(Ok(Num::Two), 2.try_into());
-
-
-  // 同理
-  impl From<Num> for i32 {
-    fn from(value: Num) -> Self {
-      value as i32
-    }
-  }
-
-  let d: i32 = Num::Three.into();
-  println!("{:?}", d);
-}
-
-
-fn transmute_run() {
-  #[derive(Debug, PartialEq)]
-  #[repr(i32)]
-  enum Num {
-    One = 1,
-    Two = 2,
-    Three,
-  }
-
-  let a = 2;
-  let b: Num = unsafe { std::mem::transmute(a) };
-  println!("{:?}", b);
-  assert_eq!(Num::Three, unsafe { std::mem::transmute(3) });
-
-  let c: Num = unsafe { std::mem::transmute(100) };
-  println!("c: {:?}", c);
-  // assert_eq!(Num::Three, c); // 如果溢出，虽然也是Num::Three，但是却不相等
-}
+fn curing_dynamic_data() {}
