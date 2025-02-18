@@ -26,7 +26,6 @@ fn main() {
 
     // 生命周期标准并没有实际性的作用，仅仅是告诉编译器多个引用之间的关联关系
 
-
     let x = String::from("hello");
     let y: &str = "world!";
 
@@ -44,7 +43,7 @@ fn main() {
         let m = String::from("longest");
         n = longest(&x, &m); // ERROR： m的生命周期不够长
     } // <- m在这里已经被销毁了
-    // println!("{}", n); // <- 如果这里再访问n, n是m的引用,则报错
+      // println!("{}", n); // <- 如果这里再访问n, n是m的引用,则报错
 
     /*
     通常来说
@@ -56,40 +55,44 @@ fn main() {
     第二种情况是永远不被允许的。除非为 'static
     */
 
-
     // 结构体中的生命周期
 
     #[derive(Debug)]
     struct Person<'a> {
-        name: &'a str
+        name: &'a str,
     }
 
-    let cxk = Person {
-        name: "cxk"
-    };
+    let cxk = Person { name: "cxk" };
 
     println!("cxk: {:?}", cxk);
 
     // 为具有生命周期的结构体实现方法
 
     // 'a: 'b 为生命周期约束写法,表示'b必须比'a小 ('a必须比'a活得久)
-    impl <'a: 'b, 'b> Person<'a> {
+    impl<'a: 'b, 'b> Person<'a> {
         fn name_len(&self) -> usize {
             self.name.len()
         }
 
         fn name_longest(&self, target: &'b str) -> &'b str {
-            if self.name_len() > target.len() { self.name } else { target }
+            if self.name_len() > target.len() {
+                self.name
+            } else {
+                target
+            }
         }
     }
 
     println!("cxk: {:?}", cxk.name_longest("hello"));
 
-
     // 静态生命周期标注
 
     fn get_ip_type(is_ipv6: bool) -> &'static str {
-        if is_ipv6 { "ipv6" } else { "ipv4" }
+        if is_ipv6 {
+            "ipv6"
+        } else {
+            "ipv4"
+        }
     }
 
     println!("{}, {}", get_ip_type(false), get_ip_type(true));

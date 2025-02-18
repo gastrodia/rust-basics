@@ -13,11 +13,7 @@ fn main() {
     println!("m2: {:?}, capacity:{}", m2, m2.capacity());
 
     // 将动态数组转为hashMap
-    let v1 = vec![
-        ("语文", 70),
-        ("数学", 99),
-        ("英语", 80)
-    ];
+    let v1 = vec![("语文", 70), ("数学", 99), ("英语", 80)];
     let mut m3 = v1.into_iter().collect::<HashMap<&str, u8>>();
     println!("m3: {:?}", m3);
 
@@ -34,5 +30,4 @@ fn main() {
     m3.entry("语文").or_insert(100); // 语文已存在 不插入
 
     println!("[3]: m3: {:?}", m3);
-
 }

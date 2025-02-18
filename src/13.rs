@@ -15,7 +15,7 @@ fn create_enum() {
     enum Poker {
         Clubs,
         Spades,
-        Diamonds
+        Diamonds,
     }
 
     let card = Poker::Clubs;
@@ -35,7 +35,7 @@ fn enum_value() {
     #[derive(Debug)]
     struct User {
         name: String,
-        age: u8
+        age: u8,
     }
     #[derive(Debug)]
     struct RGB(u8, u8, u8);
@@ -44,24 +44,23 @@ fn enum_value() {
         Clubs(u8),
         Spades(bool),
         Diamonds(String),
-        Hearts {x: u8, y: u8},
+        Hearts { x: u8, y: u8 },
         User(User),
-        Rgb(RGB)
+        Rgb(RGB),
     }
 
     // 我们可以将Poker枚举看作一个信封，而每个枚举值就是信封里的卡片
     // 每个卡片的内容可以不同，有的是数字，有的是字符串，有的是结构体
 
-
     // 我们可以在同种类型卡片上填写相关的信息 得到一个填写了信息的卡片
     let card1 = Poker::Clubs(1);
     let card2 = Poker::Spades(false);
     let card3 = Poker::Diamonds(String::from("Diamonds"));
-    let card4 = Poker::Hearts {x:3, y:4};
+    let card4 = Poker::Hearts { x: 3, y: 4 };
 
     let card5 = Poker::User(User {
-       name: String::from("cxk"),
-        age: 18
+        name: String::from("cxk"),
+        age: 18,
     });
     let card6 = Poker::Rgb(RGB(0, 0, 0));
     println!("card1: {:?}", card1);
@@ -80,7 +79,7 @@ fn enum_value() {
         println!("card5 user: {} {}", user.name, user.age);
     }
 
-    if let Poker::Hearts {x, y} = card4 {
+    if let Poker::Hearts { x, y } = card4 {
         println!("card 4: x: {} y: {}", x, y);
     }
 
@@ -105,8 +104,8 @@ fn enum_value() {
         Poker::Diamonds(d) => {
             println!("card3: {}", d);
             d
-        },
-        _ => String::from("None")
+        }
+        _ => String::from("None"),
     };
 
     println!("card3_result: {}", card3_result);

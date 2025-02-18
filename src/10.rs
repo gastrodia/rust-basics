@@ -136,13 +136,7 @@ fn update_string() {
     let s12 = String::from(" ");
     let s13 = String::from("world");
     // 亦或 format
-    let s14 = format!(
-        "{}{}{}{}",
-        s12,
-        "hello",
-        &s13,
-        "!"
-    );
+    let s14 = format!("{}{}{}{}", s12, "hello", &s13, "!");
     println!("s14: {}", s14);
     println!("s13: {}", s13);
     println!("s12: {}", s12);

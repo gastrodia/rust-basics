@@ -1,7 +1,7 @@
 fn main() {
     fn todo(x: i32) -> i32 {
         if x > 5 {
-            return x - 5
+            return x - 5;
         }
         x + 5
     }
@@ -28,10 +28,8 @@ fn main() {
 
     // 死循环也将永无返回值
     fn forever() -> ! {
-        loop {
-        }
+        loop {}
         // println!("无法到达")
     }
     // forever()
-
 }

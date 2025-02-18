@@ -8,9 +8,12 @@ fn main() {
 
     println!("{}", a);
 
-
     fn un_type(num: i32) -> &'static str {
-        if num % 2 == 0 { "even" } else { "odd" }
+        if num % 2 == 0 {
+            "even"
+        } else {
+            "odd"
+        }
     }
 
     println!("{} {}", un_type(12), un_type(13));

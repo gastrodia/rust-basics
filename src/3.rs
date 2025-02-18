@@ -7,8 +7,7 @@ struct Struct {
 }
 
 const MAX_SIZE: i32 = 30; // 常量可以定义在函数体外部
-// let size = 20; // let 变量不可定义在函数体外部
-
+                          // let size = 20; // let 变量不可定义在函数体外部
 
 fn main() {
     let (a, b, c, d, e, f);
@@ -67,11 +66,8 @@ fn main() {
     y = y + 1;
     println!("变量y: {}", y);
     let y = y + 1; // 可以将mut变量遮蔽为let变量
-    // y = y + 1;
+                   // y = y + 1;
     println!("变量y: {}", y);
-    
-
-
 
     /*
     const 必须注明类型，而 let 可以类型推断
@@ -111,5 +107,4 @@ fn main() {
     可以修改同一个内存地址上的值，
     并不会发生内存对象的再分配，性能要更好。
      */
-
 }

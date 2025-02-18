@@ -14,10 +14,8 @@ fn main() {
     println!("{}", d);
     println!("{}", f);
 
-
     println!("c占用{}个字节", std::mem::size_of_val(&c)); // 4
     println!("d占用{}个字节", std::mem::size_of_val(&d)); // 16
-
 
     // bool
 

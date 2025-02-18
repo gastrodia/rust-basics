@@ -7,7 +7,6 @@ fn main() {
     let x = tup.0;
     println!("{}", x);
 
-
     // 元组可使函数返回多个返回值
 
     let s = String::from("hello");

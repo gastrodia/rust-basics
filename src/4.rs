@@ -16,14 +16,14 @@ fn main() {
 
     // isize 和 usize 是根据当前操作系统位数决定的，32位系统是i32，64位系统是i64
 
-    const A:(i8, i8) = (-128, 127);
-    const B:(u8, u8) = (0, 255);
+    const A: (i8, i8) = (-128, 127);
+    const B: (u8, u8) = (0, 255);
 
     println!("常量A: {:?}", A);
     println!("常量B: {:?}", B);
 
-    let a:isize = 1;
-    let b:usize = 1;
+    let a: isize = 1;
+    let b: usize = 1;
 
     println!("变量a: {:?}", a);
     println!("变量b: {:?}", b);
@@ -31,21 +31,19 @@ fn main() {
     // 获取当前操作系统位数
     println!("当前操作系统位数: {}", isize::BITS);
 
-
-    /* 
+    /*
     Rust 整型默认使用 i32，
     例如 let i = 1，那 i 就是 i32 类型，
     因此你可以首选它，同时该类型也往往是性能最好的。
     isize 和 usize 的主要应用场景是用集合的索引。
      */
 
-    let mut c:i8 = 127;
+    let mut c: i8 = 127;
     // c = c + 1; // stack backtrace 溢出
     c = c - 1;
     println!("变量c: {:?}", c);
     c = c.wrapping_add(4); // 溢出时补码循环 -126
     println!("变量c: {:?}", c);
-
 
     println!("{}", "-----------浮点型-------------");
 
@@ -55,7 +53,6 @@ fn main() {
 
     println!("变量d: {:?}", d);
     println!("变量e: {:?}", e);
-
 
     let abc: (f32, f32, f32) = (0.1, 0.2, 0.3);
     let bcd: (f64, f64, f64) = (0.1, 0.2, 0.3);
@@ -80,7 +77,7 @@ fn main() {
     // 运算
     let num_sum = 1 + 1;
     let num_diff = 5 - 2;
-    let num_product =  3 * 3;
+    let num_product = 3 * 3;
     let num_quotient = 12 / 2;
     let num_remainder = 5 % 2;
 
@@ -99,7 +96,6 @@ fn main() {
     // println控制小数位数
     println!("保留两位小数 {:.2}", std::f64::consts::PI);
 
-
     // 位运算
     let a = 0b0000_0010;
     let b = 0b0000_0011;
@@ -114,13 +110,12 @@ fn main() {
     println!("a << 2 = {} {}", a << 2, 0b1000);
     println!("a >> 2 = {} {}", a >> 2, 0b0000);
 
-
     // Range
     // 打印1到5的数字
     /*for i in 1..=5 {
         println!("{}", i);
     }*/
-    
+
     // 打印乘法表
     for x in 1..=9 {
         for y in 1..=x {
@@ -130,7 +125,7 @@ fn main() {
     }
 
     // 甚至可以是字符 a-z
-    for code_char in 'a' ..= 'z' {
+    for code_char in 'a'..='z' {
         print!("{} ", code_char);
     }
 }

@@ -19,8 +19,7 @@ fn main() {
 
     println!("_{:5}_{:5}_", "ok", "好"); // 至少五位，如果不够就在后面补空格
 
-    println!("_{:width$}_{:width$}_", "ok", "好", width=5); // 指定宽度
-
+    println!("_{:width$}_{:width$}_", "ok", "好", width = 5); // 指定宽度
 
     println!("{:+}", 100);
 
@@ -30,15 +29,14 @@ fn main() {
     println!("| {:>100} |", "右对齐");
     println!("| {:^100} |", "居中对齐");
 
-
     println!("{:#b}", 100); // 二进制
     println!("{:#o}", 100); // 八进制
     println!("{:#x}", 1000); // 十六进制小写
     println!("{:#X}", 1000); // 十六进制大写
     println!("{:x}", 1000); // 不含0x十六进制
 
-    println!("{:e}", 100000);  // 对数
-    println!("{:E}", 100000);  // 对数
+    println!("{:e}", 100000); // 对数
+    println!("{:E}", 100000); // 对数
 
     println!("{:p}", String::from("world").as_ptr()); //指针
 

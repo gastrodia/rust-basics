@@ -109,17 +109,14 @@ fn const_fn__() {
         b * M_SIZE
     }
 
-    const G_SIZE:usize = g_size(2);
-
+    const G_SIZE: usize = g_size(2);
 
     #[derive(Debug)]
     struct BufferArr<const S: usize> {
         data: [u8; S],
     }
 
-    let bff = BufferArr::<G_SIZE> {
-        data: [0; G_SIZE],
-    };
+    let bff = BufferArr::<G_SIZE> { data: [0; G_SIZE] };
 
     println!("bff: {:?}, len: {}", bff, bff.data.len());
 }

@@ -43,8 +43,6 @@ fn closure() {
         // 实现了 Fn trait
     };
 
-
-
     let v1 = fun1(2);
     let v2 = fun3(2);
 
@@ -64,16 +62,15 @@ fn closure() {
     println!("v6: {}", v6);
     println!("v3: {}", v3);
 
-
     let v7 = String::from("hello");
     let fun5 = |y| v7 + y; // 实现了 FnOnce trait 夺走了v7的所有权
     let v8 = "world".to_string();
     fun5(&v8); // 第一次调用时，v7 的所有权被消耗, v7的所有权被移动到了这里
-    // fun5(&v8); // 只能调用一次
+               // fun5(&v8); // 只能调用一次
 
     let fun6 = |x| x; // 不需要标注类型
     fun6("hello"); // 编译器会根据上下文自动推导类型、 但当编译器推导出某一类型后就会一直使用该类型
-    // fun6(10); // 会报错，因为编译器已经推导出fun6的类型为 &str
+                   // fun6(10); // 会报错，因为编译器已经推导出fun6的类型为 &str
 
     let fun7 = |x: &str, y| x.to_string() + y; // 有些时候编译器无法正确推断，需要手动指定
 
@@ -82,21 +79,23 @@ fn closure() {
 
     fun7(v9, v10);
 
-
     // 结构体中的闭包
 
     #[derive(Debug)]
     struct Cache<T, V> {
         value: Option<V>,
-        callback: T
+        callback: T,
     }
 
     impl<T, V> Cache<T, V>
     where
-        T: Fn(&V)
+        T: Fn(&V),
     {
         fn new(value: V, callback: T) -> Cache<T, V> {
-            Cache { value: Some(value), callback}
+            Cache {
+                value: Some(value),
+                callback,
+            }
         }
 
         fn dispatch(&self) {
@@ -122,7 +121,6 @@ fn closure() {
     temp.dispatch();
 }
 
-
 fn closure_trait() {
     println!("=== closure_trait ===");
 
@@ -135,29 +133,27 @@ fn closure_trait() {
     let p = "hello".to_string();
     let fn3 = || p;
 
-
     fn1(); // Fn
     fn2(); // FnMut
     fn3(); // FnOnce
 
     fn fn_fn<F>(fun: F, from: &str)
     where
-        F: Fn(&str)
+        F: Fn(&str),
     {
         fun(from);
     }
 
     fn fn_mut<F>(mut fun: F, from: &str)
     where
-        F: FnMut(&str)
+        F: FnMut(&str),
     {
         fun(from);
     }
 
-
     fn fn_once<F, T>(fun: F)
     where
-        F: FnOnce() -> T
+        F: FnOnce() -> T,
     {
         fun();
     }
@@ -172,19 +168,16 @@ fn closure_trait() {
         println!("From: {ss}");
     };
 
-
     let sss = "hello".to_string();
-    let fn_once_cb = || {
-        sss
-    };
+    let fn_once_cb = || sss;
 
     fn_fn(fn_fn_cb, "fn_fn");
     fn_mut(fn_mut_cb, "fn_mut");
     println!("{ss}");
     fn_once(fn_once_cb);
     // fn_once(fn_once_cb); // 取决于该闭包如何使用被捕获的变量
-    fn_once(|| ss);  // 与捕获闭包的方式无关
-    // 一个闭包实现了哪种 Fn 特征取决于该闭包如何使用被捕获的变量，而不是取决于闭包如何捕获它们。
+    fn_once(|| ss); // 与捕获闭包的方式无关
+                    // 一个闭包实现了哪种 Fn 特征取决于该闭包如何使用被捕获的变量，而不是取决于闭包如何捕获它们。
 
     /*
     所有的闭包都自动实现了 FnOnce 特征，因此任何一个闭包都至少可以被调用一次

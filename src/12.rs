@@ -51,7 +51,7 @@ fn build_user() {
 
     // 把结构体中具有所有权的字段转移出去后，将无法再访问该字段，但是可以正常访问其它的字段。
     println!("cxk name: {}", cxk.name); // 未移交的字段仍可继续访问
-    // println!("cxk hobbies: {}", cxk.hobbies); // 无法再访问cxk的hobbies字段，因为hobbies字段为String类型。所有权被move到omg的hobbies字段上了
+                                        // println!("cxk hobbies: {}", cxk.hobbies); // 无法再访问cxk的hobbies字段，因为hobbies字段为String类型。所有权被move到omg的hobbies字段上了
     println!("cxk age: {}", cxk.age); // 其他不会移交所有权的字段仍可继续访问
 }
 fn tuple_struct() {

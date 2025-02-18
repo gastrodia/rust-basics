@@ -60,7 +60,6 @@ fn vector_base() {
     println!("zoo: {:?}", zoo);
 }
 
-
 fn vector_methods() {
     println!("=== vector_methods ===");
 
@@ -74,37 +73,84 @@ fn vector_methods() {
 
     // 预估容量 减少容量不足时发生的内存拷贝
     let mut v2 = Vec::<u8>::with_capacity(3);
-    println!("[1]: v2: {:?}, len: {}, capacity: {}", v2, v2.len(), v2.capacity());
+    println!(
+        "[1]: v2: {:?}, len: {}, capacity: {}",
+        v2,
+        v2.len(),
+        v2.capacity()
+    );
     v2.extend([1, 2, 3]);
-    println!("[2]: v2: {:?}, len: {}, capacity: {}", v2, v2.len(), v2.capacity());
+    println!(
+        "[2]: v2: {:?}, len: {}, capacity: {}",
+        v2,
+        v2.len(),
+        v2.capacity()
+    );
 
     v2.extend([4, 5, 6]);
-    println!("[3]: v2: {:?}, len: {}, capacity: {}", v2, v2.len(), v2.capacity()); // 容量自动发生变化
+    println!(
+        "[3]: v2: {:?}, len: {}, capacity: {}",
+        v2,
+        v2.len(),
+        v2.capacity()
+    ); // 容量自动发生变化
 
     v2.reserve(100); // 调整容量
-    println!("[4]: v2: {:?}, len: {}, capacity: {}", v2, v2.len(), v2.capacity()); // 容量发生变化
+    println!(
+        "[4]: v2: {:?}, len: {}, capacity: {}",
+        v2,
+        v2.len(),
+        v2.capacity()
+    ); // 容量发生变化
 
     v2.shrink_to_fit(); // 释放多余内存
-    println!("[5]: v2: {:?}, len: {}, capacity: {}", v2, v2.len(), v2.capacity()); // 容量发生变化
+    println!(
+        "[5]: v2: {:?}, len: {}, capacity: {}",
+        v2,
+        v2.len(),
+        v2.capacity()
+    ); // 容量发生变化
 
     // 检查vector是否是空数组
     println!("v2 is empty: {}", v2.is_empty());
 
     // 在指定为主插入元素
     v2.insert(1, 99);
-    println!("[6]: v2: {:?}, len: {}, capacity: {}", v2, v2.len(), v2.capacity()); // 容量发生变化
+    println!(
+        "[6]: v2: {:?}, len: {}, capacity: {}",
+        v2,
+        v2.len(),
+        v2.capacity()
+    ); // 容量发生变化
 
     // 移除指定位置的元素并返回
     let v2_1 = v2.remove(1);
-    println!("[7]: v2: {:?}, len: {}, capacity: {}, remove: {}", v2, v2.len(), v2.capacity(), v2_1); // 容量不发生变化
+    println!(
+        "[7]: v2: {:?}, len: {}, capacity: {}, remove: {}",
+        v2,
+        v2.len(),
+        v2.capacity(),
+        v2_1
+    ); // 容量不发生变化
 
     // 删除尾部元素并返回Option 如果是空数组返回None
     let v2_2 = v2.pop();
-    println!("[8]: v2: {:?}, len: {}, capacity: {}, pop: {:?}", v2, v2.len(), v2.capacity(), v2_2); // 容量不发生变化
+    println!(
+        "[8]: v2: {:?}, len: {}, capacity: {}, pop: {:?}",
+        v2,
+        v2.len(),
+        v2.capacity(),
+        v2_2
+    ); // 容量不发生变化
 
     // 清空数组
     v2.clear();
-    println!("[9]: v2: {:?}, len: {}, capacity: {}", v2, v2.len(), v2.capacity()); // 容量不发生变化
+    println!(
+        "[9]: v2: {:?}, len: {}, capacity: {}",
+        v2,
+        v2.len(),
+        v2.capacity()
+    ); // 容量不发生变化
 
     let mut v3 = vec![1, 2, 3];
     let mut v4 = vec![4, 5, 6];
@@ -129,7 +175,13 @@ fn vector_methods() {
 
     // 数组切片式
     let v4_2 = &v4[..];
-    println!("-[6]: v4: {:?}: {}, v4_2: {:?}: {}", v4, type_name_of_val(&v4), v4_2, type_name_of_val(v4_2));
+    println!(
+        "-[6]: v4: {:?}: {}, v4_2: {:?}: {}",
+        v4,
+        type_name_of_val(&v4),
+        v4_2,
+        type_name_of_val(v4_2)
+    );
 
     // 排序
     let mut v5 = vec![5, 3, 6, 8, 4];
@@ -166,7 +218,7 @@ fn vector_methods() {
         Person::new("Maria".to_string(), 50),
         Person::new("William".to_string(), 75),
         Person::new("Jane".to_string(), 25),
-        Person::new("Joe".to_string(), 15)
+        Person::new("Joe".to_string(), 15),
     ];
 
     let mut v8 = Vec::from(&v7);
@@ -181,5 +233,4 @@ fn vector_methods() {
 
     let diff = Person::new("Atm".to_string(), 25) > Person::new("Jane".to_string(), 15); // A比J小
     println!("diff: {:?}", diff);
-
 }

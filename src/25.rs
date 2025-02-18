@@ -1,8 +1,8 @@
 // 错误处理
 
-use std::{env, fs};
 use std::fs::File;
 use std::io::{Error, ErrorKind, Read, Write};
+use std::{env, fs};
 
 fn main() {
     println!("current dir: {:?}", env::current_dir());
@@ -30,7 +30,6 @@ fn main() {
             println!("[error_up] error: {}", e);
         }
     }
-
 
     // 链式调用的错误传染
 }
@@ -60,7 +59,6 @@ fn read_file(path: &str) {
         },
     }
 }
-
 
 fn error_up(path: &str) -> Result<String, Error> {
     let mut file = File::open(path)?; // 使用?号将错误传染出去

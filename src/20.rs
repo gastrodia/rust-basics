@@ -4,13 +4,12 @@ fn main() {
     dyn__();
 }
 
-
 fn dyn__() {
     println!("=== dyn__ ===");
 
     // 动物
     // 所有使用Animal trait 的struct 都需要实现Debug trait
-    trait Animal: Debug  {
+    trait Animal: Debug {
         fn name(&self) -> String;
         fn say(&self);
         fn run(&self) {
@@ -20,17 +19,17 @@ fn dyn__() {
 
     #[derive(Debug)]
     struct Dog {
-        name: String
+        name: String,
     }
 
     #[derive(Debug)]
     struct Cat {
-        name: String
+        name: String,
     }
 
     #[derive(Debug)]
     struct Duck {
-        name: String
+        name: String,
     }
 
     impl Animal for Dog {
@@ -45,7 +44,7 @@ fn dyn__() {
     impl Dog {
         fn new(name: &str) -> Self {
             Self {
-                name: String::from(name)
+                name: String::from(name),
             }
         }
     }
@@ -62,7 +61,7 @@ fn dyn__() {
     impl Cat {
         fn new(name: &str) -> Self {
             Self {
-                name: String::from(name)
+                name: String::from(name),
             }
         }
     }
@@ -79,19 +78,19 @@ fn dyn__() {
     impl Duck {
         fn new(name: &str) -> Self {
             Self {
-                name: String::from(name)
+                name: String::from(name),
             }
         }
     }
 
     struct Zoo {
-        animals: Vec<Box<dyn Animal>>
+        animals: Vec<Box<dyn Animal>>,
     }
 
     // 为Zoo实现自定义打印
     impl Display for Zoo {
         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-           let mut animals = String::new();
+            let mut animals = String::new();
             for animal in self.animals.iter() {
                 animals.push_str(&animal.name());
                 animals.push_str(", ");
@@ -103,7 +102,7 @@ fn dyn__() {
     impl Zoo {
         fn new() -> Self {
             Zoo {
-                animals: Vec::<Box<dyn Animal>>::new()
+                animals: Vec::<Box<dyn Animal>>::new(),
             }
         }
 
@@ -132,8 +131,6 @@ fn dyn__() {
         }
     }
 
-
-
     let dog = Dog::new("史努比");
     let cat = Cat::new("哆啦B梦");
     let duck = Duck::new("唐老鸭");
@@ -156,7 +153,6 @@ fn dyn__() {
     zoo.add_animal(Box::new(Cat::new("汤姆")));
     zoo.look();
 
-
     // 我们为字符串切片实现了 Animal trait 使他看上去像动物
     impl Animal for &str {
         fn name(&self) -> String {
@@ -168,7 +164,6 @@ fn dyn__() {
         }
     }
 
-
     // 虽然&str不是动物，但是我们为&str 实现了Animal trait
     // 这就是："如果它走起路来像鸭子，叫起来像鸭子，那它就是鸭子"
 
@@ -177,5 +172,4 @@ fn dyn__() {
     zoo.look();
     zoo.run();
     zoo.say();
-
 }

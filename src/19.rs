@@ -1,14 +1,12 @@
 use std::fmt::{Display, Formatter};
-use std::ops::{Add};
+use std::ops::Add;
 
 // 特征
 fn main() {
-
     trait__();
 
     // 有条件的实现trait
     trait_impl();
-
 }
 
 fn trait__() {
@@ -25,7 +23,7 @@ fn trait__() {
         fn owner(&self) -> &str;
 
         // 关注作者
-        fn follow(&self)  {
+        fn follow(&self) {
             println!("成功关注了 {}", self.owner())
         }
     }
@@ -34,16 +32,19 @@ fn trait__() {
     struct Article {
         author: String,
         title: String,
-        content: String
+        content: String,
     }
     struct Vlog {
         up: String,
-        title: String
+        title: String,
     }
 
     impl Summary for Article {
         fn summarize(&self) -> String {
-            format!("{}发布了文章《{}》：\"{}\"", self.author, self.title, self.content)
+            format!(
+                "{}发布了文章《{}》：\"{}\"",
+                self.author, self.title, self.content
+            )
         }
         fn owner(&self) -> &str {
             &(self.author)
@@ -68,19 +69,18 @@ fn trait__() {
     let rust_hi = Article {
         author: "哆啦B梦".to_string(),
         title: "你好，Rust".to_string(),
-        content: "rust 有点难".to_string()
+        content: "rust 有点难".to_string(),
     };
 
     let manba = Vlog {
         up: "不吃香菜".to_string(),
-        title: "爱吃肘击".to_string()
+        title: "爱吃肘击".to_string(),
     };
 
     println!("{}", rust_hi.summarize());
     println!("{}", manba.summarize());
     rust_hi.follow();
     manba.follow();
-
 
     // 使用特征作为函数的参数
 
@@ -100,7 +100,7 @@ fn trait__() {
     let bang = Article {
         author: "GGBond".to_string(),
         title: "超级棒棒糖".to_string(),
-        content: "很好吃".to_string()
+        content: "很好吃".to_string(),
     };
     notify(&rust_hi, &bang);
     // 但是
@@ -126,7 +126,7 @@ fn trait__() {
     // 使用where改写多重约束
     fn show_v2<T>(data: T)
     where
-        T: Clone + std::fmt::Debug
+        T: Clone + std::fmt::Debug,
     {
         let new_data = data.clone();
         println!("v2_: {:?}", new_data);
@@ -137,7 +137,7 @@ fn trait__() {
     // 函数返回特征
 
     fn get_summary() -> impl Summary + std::fmt::Debug {
-     /*   if is_vlog {
+        /*   if is_vlog {
             return Vlog {
                 up: "光头强".to_string(),
                 title: "可恶的小熊熊".to_string()
@@ -150,7 +150,7 @@ fn trait__() {
         Article {
             author: "光头强".to_string(),
             title: "可恶".to_string(),
-            content: "可恶的小熊熊".to_string()
+            content: "可恶的小熊熊".to_string(),
         }
     }
 
@@ -162,25 +162,22 @@ fn trait_impl() {
     #[derive(Debug)]
     struct Storage<T> {
         x: T,
-        y: T
+        y: T,
     }
 
-    impl <T>Storage<T> {
+    impl<T> Storage<T> {
         fn new(x: T, y: T) -> Self {
-            Storage {
-                x,
-                y
-            }
+            Storage { x, y }
         }
     }
 
-    impl <T: Add<Output = T> + Copy> Storage<T> {
+    impl<T: Add<Output = T> + Copy> Storage<T> {
         fn sum_x_and_y(&self) -> T {
             self.x + self.y
         }
     }
 
-    impl <T: Copy + ToString>Storage<T> {
+    impl<T: Copy + ToString> Storage<T> {
         fn put_x_and_y(&self) -> String {
             self.x.to_string() + &(self.y.to_string())
         }
@@ -203,13 +200,13 @@ fn trait_impl() {
     println!("{}", s3.put_x_and_y()); // bool 可以 toString
 
     // 为自定义结构体实现加法运算
-    impl <T: Add<Output = T>>Add for Storage<T> {
+    impl<T: Add<Output = T>> Add for Storage<T> {
         type Output = Storage<T>;
 
         fn add(self, rhs: Storage<T>) -> Storage<T> {
             Storage {
                 x: self.x + rhs.x,
-                y: self.y + rhs.y
+                y: self.y + rhs.y,
             }
         }
     }
@@ -224,7 +221,7 @@ fn trait_impl() {
 
     // 为自定义结构体实现Display
 
-    impl <T: Display> Display for Storage<T> {
+    impl<T: Display> Display for Storage<T> {
         fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
             write!(f, "<x: {}, y: {}>", self.x, self.y)
         }

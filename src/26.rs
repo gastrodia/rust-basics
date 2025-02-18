@@ -32,7 +32,6 @@ fn foo() {
     // todo!()
 }
 
-
 /** `bar` bar方法
 # Examples
 ```

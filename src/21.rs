@@ -4,14 +4,12 @@ fn main() {
     // 关联类型
     ass_type();
 
-
     // 默认泛型类型参数
     default_generics();
 
     // 完全限定
     trait_method();
 }
-
 
 fn ass_type() {
     println!("=== ass_type ===");
@@ -64,7 +62,8 @@ fn default_generics() {
     println!("=== default_generics ===");
 
     // 这里没有指定泛型T的默认类型
-    trait Up<T>: Debug { // 特征约束。要求实现Up trait的数据都必须实现Debug trait
+    trait Up<T>: Debug {
+        // 特征约束。要求实现Up trait的数据都必须实现Debug trait
         type Output;
         fn up(&self, t: &T, separator: &str) -> Self::Output;
     }
@@ -78,7 +77,7 @@ fn default_generics() {
     #[derive(Debug)]
     struct Point<T> {
         x: T,
-        y: T
+        y: T,
     }
 
     // 这里 因为Up的泛型没有默认值 所以需要手动传入泛型参数
@@ -87,7 +86,7 @@ fn default_generics() {
         fn up(&self, target: &Point<u8>, separator: &str) -> Self::Output {
             Point {
                 x: format!("{}{}{}", self.x, separator, target.x),
-                y: format!("{}{}{}", self.y, separator, target.y)
+                y: format!("{}{}{}", self.y, separator, target.y),
             }
         }
     }
@@ -98,16 +97,22 @@ fn default_generics() {
         fn down(&self, target: &Self, separator: &str) -> Self::Output {
             Point {
                 x: format!("{}{}{}", self.x, separator, target.x),
-                y: format!("{}{}{}", self.y, separator, target.y)
+                y: format!("{}{}{}", self.y, separator, target.y),
             }
         }
     }
 
-    let p1 = Point { x: "a".to_string(), y: "b".to_string() };
+    let p1 = Point {
+        x: "a".to_string(),
+        y: "b".to_string(),
+    };
     let p2 = Point { x: 1, y: 2 };
     let p3 = p1.up(&p2, "+");
     println!("p3 {:?}", p3);
-    let p4 = Point { x: "2".to_string(), y: "3".to_string() };
+    let p4 = Point {
+        x: "2".to_string(),
+        y: "3".to_string(),
+    };
     let p5 = p1.down(&p4, "-");
     // 因为我们在为Point实现Down时，没有为Down传入泛型参数，
     // 因此 down函数的第一个参数只能是与p1相同的类型 即 String 类型。而不能传入其他类型

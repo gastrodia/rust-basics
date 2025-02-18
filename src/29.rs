@@ -119,7 +119,6 @@ fn static_gen() {
     print_t_3(&SIZE);
     print_t_4(&SIZE);
 
-
     let s2;
     let s3;
     {

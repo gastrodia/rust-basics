@@ -142,7 +142,7 @@ fn loop__() {
                 break 'inner loop {
                     break 'outer 24; // 直接返回到外层 且返回值
                 };
-            };
+            }
             println!("inner next..");
         }
     };

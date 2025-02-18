@@ -93,7 +93,7 @@ fn array_fill() {
 fn array_slice() {
     println!("=== array_slice ===");
     let arr = [1, 2, 3, 4, 5]; // rust 会自动推断类型
-    // arr的类型为 [i32; 5] , 长度也是类型的一部分
+                               // arr的类型为 [i32; 5] , 长度也是类型的一部分
     println!("arr: {:?}", arr);
 
     // 切片 与字符串切片类似

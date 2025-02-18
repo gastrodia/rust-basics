@@ -1,16 +1,13 @@
-
 use std::f64::consts::PI;
 
 // 方法
 fn main() {
-
     // 为结构体实现方法
     define_method();
 
     // 为枚举实现方法
     enum_method();
 }
-
 
 fn define_method() {
     println!("=== define_method ===");
@@ -19,17 +16,13 @@ fn define_method() {
     struct Circle {
         x: f64,
         y: f64,
-        radius: f64
+        radius: f64,
     }
 
     impl Circle {
         // 关联函数 类似构造函数
         fn new(x: f64, y: f64, radius: f64) -> Circle {
-            Circle {
-                x,
-                y,
-                radius
-            }
+            Circle { x, y, radius }
         }
 
         // 关联函数 类似静态方法
@@ -43,7 +36,7 @@ fn define_method() {
         }
 
         // 方法 修改自身属性
-        fn move_to(&mut self, x: f64, y:f64) {
+        fn move_to(&mut self, x: f64, y: f64) {
             self.x = x;
             self.y = y;
         }
@@ -57,7 +50,6 @@ fn define_method() {
         }
     }
 
-
     let mut c = Circle::new(0.0, 0.0, 2.0);
     println!("c: {:?}", c);
     let c_area = c.get_area();
@@ -68,22 +60,21 @@ fn define_method() {
     println!("c.radius : {:?}", c.radius);
 }
 
-
 fn enum_method() {
     println!("=== enum_method ===");
 
     enum Action {
-        MoveTo {x: f64, y: f64}
+        MoveTo { x: f64, y: f64 },
     }
 
     impl Action {
         fn new(x: f64, y: f64) -> Action {
-            Action::MoveTo {x, y}
+            Action::MoveTo { x, y }
         }
 
         fn get_position(&self) -> (f64, f64) {
             match self {
-                Action::MoveTo {x, y} => (*x, *y)
+                Action::MoveTo { x, y } => (*x, *y),
             }
         }
     }

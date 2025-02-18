@@ -9,7 +9,6 @@ fn main() {
     // matches! 宏
     matches__();
 
-
     // let else
     let_else();
 
@@ -23,14 +22,12 @@ fn main() {
     match_at();
 }
 
-
 enum Direction {
     Left,
     Right,
     Top(u8),
-    Bottom
+    Bottom,
 }
-
 
 fn match__() {
     println!("=== match__ ===");
@@ -39,13 +36,14 @@ fn match__() {
             Direction::Top(x) => {
                 println!("top");
                 Some(x) // 可以有返回值
-            },
+            }
             // 使用|匹配多种情况
             Direction::Left | Direction::Right => {
                 println!("left or right");
                 Some(20)
-            },
-            _ => { // 剩余情况
+            }
+            _ => {
+                // 剩余情况
                 println!("other");
                 None
             }
@@ -57,26 +55,26 @@ fn match__() {
     println!("Bottom: {:?}", match_direction(Direction::Bottom));
 }
 
-
 fn if_let() {
     println!("=== if_let  ===");
 
     fn is_direction_top(d: Direction) -> u8 {
-        if let Direction::Top(x) = d  {
+        if let Direction::Top(x) = d {
             println!("{} is top", x);
             x
-        } else { 0 }
+        } else {
+            0
+        }
     }
 
     println!("is_direction_top: {}", is_direction_top(Direction::Bottom));
     println!("is_direction_top: {}", is_direction_top(Direction::Top(20)));
 }
 
-
 fn matches__() {
     println!("=== matches__ ===");
 
-    let card1  = Direction::Top(1);
+    let card1 = Direction::Top(1);
 
     // 我们不能直接用 == 判断枚举是否相等
     // let r = card1 == Direction::Top(1);
@@ -123,7 +121,7 @@ fn match_guard() {
         match x {
             Some(v) if v > 0 => println!("x 大于0： {}", v), // 当if后的条件为true时才进入
             Some(v) => println!("x 小于等于0：{}", v),
-            None => println!("none")
+            None => println!("none"),
         }
     }
 
@@ -131,15 +129,14 @@ fn match_guard() {
     match_x(Some(0));
 }
 
-
 fn match_at() {
     println!("=== match_at ===");
 
     fn match_x(x: Option<i32>) {
         match x {
-            Some(v @ 5..10 ) => println!("5-10内: {}", v),
+            Some(v @ 5..10) => println!("5-10内: {}", v),
             Some(v) => println!("不在5-10之内: {}", v),
-            None => ()
+            None => (),
         }
     }
 
@@ -147,35 +144,37 @@ fn match_at() {
     match_x(Some(6));
 
     #[derive(Debug)]
-    enum  Action {
-        Move {x: i32, y: i32}
+    enum Action {
+        Move { x: i32, y: i32 },
     }
 
     fn match_struct(action: Action) {
         match action {
-            Action::Move {x: a, y : b @ 1..10} => {
+            Action::Move { x: a, y: b @ 1..10 } => {
                 println!("action move 在 1到10： {}", b);
             }
-            ac @ Action::Move {x, y: b @ 10..20} => {
+            ac @ Action::Move { x, y: b @ 10..20 } => {
                 println!("action move 10到20： {}, {:?}", b, ac);
                 // println!("action: {:?}", action); // 这里访问不了action了因为他的所有权被移动到ac上了
             }
-            ref ac @ Action::Move {x: a, y: b} => {
+            ref ac @ Action::Move { x: a, y: b } => {
                 println!("在这之外： {:?} {:?}", ac, action);
                 println!("action: {:?}", action); // 这里还能继续访问action。 因为ac只是对action引用
             }
         }
     }
 
-    let action1 = Action::Move {x: 10, y: 6};
-    let action2 = Action::Move {x: 10, y: 15};
-    let action3 = Action::Move {x: 100, y: 100};
+    let action1 = Action::Move { x: 10, y: 6 };
+    let action2 = Action::Move { x: 10, y: 15 };
+    let action3 = Action::Move { x: 100, y: 100 };
 
-    println!("action1: {:?}, action2: {:?}, action3: {:?}", action1, action2, action3);
+    println!(
+        "action1: {:?}, action2: {:?}, action3: {:?}",
+        action1, action2, action3
+    );
     match_struct(action1);
     match_struct(action2);
     match_struct(action3);
-
 
     // 搭配guard
 
@@ -183,16 +182,13 @@ fn match_at() {
     struct Member {
         name: String,
         age: u8,
-        is_vip: bool
+        is_vip: bool,
     }
 
     // 用来配合 guard 条件
     fn match_member(member: &Member) {
         match member {
-            m @ Member {
-                age: 18..60,
-                ..
-            } if m.is_vip => {
+            m @ Member { age: 18..60, .. } if m.is_vip => {
                 println!("{}是18岁以上的vip用户", m.name);
             }
             _ => {
@@ -204,12 +200,10 @@ fn match_at() {
     let m1 = Member {
         name: "cxk".to_string(),
         age: 19,
-        is_vip: true
+        is_vip: true,
     };
 
     match_member(&m1);
 
     println!("m1: {:?}", m1);
 }
-
-
